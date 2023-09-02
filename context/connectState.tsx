@@ -14,7 +14,11 @@ import { ParticleAuthModule, ParticleProvider } from "@biconomy/particle-auth";
 const ConnectStateContext = createContext<any>(null);
 
 export const ConnectStateProvider = ({ children }: any) => {
-  const { address } = useAccount();
+  const { address: addr } = useAccount();
+
+  const [address, setAddress] = useState<any>();
+  setAddress(addr);
+  console.log("address", address);
   const { data: signer, isError, isLoading } = useWalletClient();
   const [smartAddress, setSmartAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -77,7 +81,15 @@ export const ConnectStateProvider = ({ children }: any) => {
 
   return (
     <ConnectStateContext.Provider
-      value={{ address, signer, connect, smartAccount, smartAddress, provider }}
+      value={{
+        address,
+        signer,
+        connect,
+        isLoading,
+        smartAccount,
+        smartAddress,
+        provider,
+      }}
     >
       {children}
     </ConnectStateContext.Provider>
